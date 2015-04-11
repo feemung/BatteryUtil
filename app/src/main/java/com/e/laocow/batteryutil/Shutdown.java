@@ -17,7 +17,8 @@ public class Shutdown {
     public static Logger l=Logger.getLogger(Shutdown.class);
     public static void nowShutdown(){
         Log.d("Shutdown", "now the phone shut down");
-       try {
+        DbManager.instance().save();
+      /* try {
 
             Process process = Runtime.getRuntime().exec("su");
             DataOutputStream out = new DataOutputStream(
@@ -27,7 +28,7 @@ public class Shutdown {
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
     /**
      * 判断当前手机是否有ROOT权限
@@ -90,23 +91,7 @@ public class Shutdown {
         return flag;
     }
 
-    public static void shutdownAfterSleep(){
 
-        //startForeground((int)System.currentTimeMillis(),new Notification());
-        Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Log.d("Shutdown", "start to sleep 10000s");
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                nowShutdown();
-            }
-        });
-        thread.start();
-    }
 
     /**
      * whether context is system application

@@ -2,7 +2,7 @@ package com.e.laocow.batteryutil;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,6 +25,7 @@ public class ShutdownDataFragment extends Fragment {
 
     private ListView dataLV;
     private Button closeBut;
+    private Logger l=Logger.getLogger(ShutdownDataFragment.class);
 
 
     public ShutdownDataFragment() {
@@ -59,7 +60,7 @@ public class ShutdownDataFragment extends Fragment {
     }
     public List<String> getData(){
         List<String> list=new ArrayList<>();
-       Map<String,Integer> map= DbManager.instance(getActivity()).getAll();
+       Map<String,Integer> map= DbManager.instance().getAll();
         Iterator<Map.Entry<String,Integer>> iterator=map.entrySet().iterator();
         int i=0;
         while(iterator.hasNext()){
@@ -70,6 +71,7 @@ public class ShutdownDataFragment extends Fragment {
             list.add(String.valueOf(i)+"、 关机时间："+time+"; 剩余电量："+String.valueOf(scale)+"%");
 
         }
+        l.d("getData:%d",list.size());
         return list;
     }
 

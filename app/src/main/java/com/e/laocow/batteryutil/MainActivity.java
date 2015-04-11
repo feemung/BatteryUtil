@@ -46,6 +46,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         //Settings.setIsAllowRoot(this,false);
         mainActivity=this;
+        StateManager.getInstance().setContext(this);
         init();
         check();
 
@@ -70,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
         });
         countTV=(TextView)findViewById(R.id.countTV);
         dataFrameLayout=(FrameLayout)findViewById(R.id.dataFrameLayout);
-        int count=DbManager.instance(this).getShutdownCount();
+        int count=DbManager.instance().getShutdownCount();
         countTV.setText(String.valueOf(count));
         mainLL=(LinearLayout)findViewById(R.id.main_mainLL);
     }
@@ -85,6 +86,11 @@ public class MainActivity extends ActionBarActivity {
 
         if(!Settings.getIsAllowRoot(this)) {
             dialogGetRoot();
+        }else{
+            if(Settings.getAppHasRoot(this)) {
+                rootTV.setText("本程序已经获得关机权限，可以正常使用。。");
+
+            }
         }
         boolean allowRoot=Settings.getIsAllowRoot(this);
         l.d("settings->allowRoot:%s",String.valueOf(allowRoot));
@@ -161,7 +167,9 @@ public class MainActivity extends ActionBarActivity {
 
     }
     public void shutdown(View view){
-        Shutdown.nowShutdown();
+        Intent intent=new Intent();
+        intent.setAction("feemung.com.test");
+        this.sendBroadcast(intent);
 
 
     }
@@ -175,9 +183,9 @@ public class MainActivity extends ActionBarActivity {
         }
     }
     public void deletedAllBut(View view){
-       boolean flag= DbManager.instance(this).deleteDatabase(this);
+       boolean flag= DbManager.instance().deleteDatabase(this);
         l.d("deletedAllBut#flag:%s",String.valueOf(flag));
-        dialog("提示","删除历史数据成功！");
+        dialog("提示", "删除历史数据成功！");
         countTV.setText("0");
 
     }

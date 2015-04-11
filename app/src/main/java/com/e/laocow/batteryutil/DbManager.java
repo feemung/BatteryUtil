@@ -22,9 +22,9 @@ public class DbManager extends SQLiteOpenHelper{
 
     private static DbManager inst;
 
-    public static synchronized DbManager instance(Context ctx) {
+    public static synchronized DbManager instance() {
         if (inst == null) {
-            inst = new DbManager(ctx, "Battt1.db", null, DB_VERSION);
+            inst = new DbManager(StateManager.getInstance().getContext(), "Battt1.db", null, DB_VERSION);
         }
 
         return inst;
@@ -62,9 +62,9 @@ public class DbManager extends SQLiteOpenHelper{
     public static String getDate(){
         return df.format(new Date());
     }
-    public synchronized void save(int batteryScale) {
+    public synchronized void save() {
+        int batteryScale=StateManager.getInstance().getBatteryScale();
         logger.d("db#batteryScale:%d", batteryScale);
-
         SQLiteDatabase db = getWritableDatabase();
         if (db == null) {
             return;
@@ -99,15 +99,16 @@ public class DbManager extends SQLiteOpenHelper{
         try {
             cursor = db.query("session_msg", null, null, null, null, null, null);
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            do {
                 logger.d("db#getAll cursor:%s","xuhuan");
+
                 int timeColumn=cursor.getColumnIndex("time");
                 String time=cursor.getString(timeColumn);
                 int batteryScaleColumn=cursor.getColumnIndex("batteryScale");
                 int batteryScale=cursor.getInt(batteryScaleColumn);
                 map.put(time,batteryScale);
                 logger.d("db#getAll cursor->time:%s,batteryScale:%d",time,batteryScale);
-            }
+            }while (cursor.moveToNext());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -115,6 +116,7 @@ public class DbManager extends SQLiteOpenHelper{
                 cursor.close();
             }
         }
+
         return map;
     }
     public boolean deleteDatabase(Context context) {

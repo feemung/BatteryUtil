@@ -22,6 +22,7 @@ public class ShutdownTipActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shutdown_tip);
         tipTV=(TextView)findViewById(R.id.shutdownTimeTipTV);
+        StateManager.getInstance().setContext(this);
         handler=new Handler(){
             @Override
             public void handleMessage(Message msg) { // 处理消息

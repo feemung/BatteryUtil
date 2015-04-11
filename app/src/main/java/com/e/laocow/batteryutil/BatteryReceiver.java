@@ -15,6 +15,8 @@ public class BatteryReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
+        StateManager.getInstance().setContext(context);
+        StateManager.getInstance().setBatteryScale(getBatteryScale(intent));
         if(!Settings.getRunFlag(context)){
 
             return;
@@ -26,6 +28,7 @@ public class BatteryReceiver extends BroadcastReceiver {
             if (isKeyguardFlag) {
                 // keyguard on
                 Shutdown.nowShutdown();
+
                 Log.d("batteryReceiver","在锁屏状态下已经收到测试广播");
 
             }else {
@@ -59,5 +62,13 @@ public class BatteryReceiver extends BroadcastReceiver {
         Intent intent=new Intent(context,ShutdownTipActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+    public int getBatteryScale(Intent intent){
+        //获取当前电量
+        int level = intent.getIntExtra("level", 0);
+        //电量的总刻度
+        int scale = intent.getIntExtra("scale", 100);
+        //把它转成百分比
+        return((level*100)/scale);
     }
 }
