@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver
             android:name=".BatteryReceiver"
             android:enabled="true"
@@ -29,6 +30,10 @@
         <activity
             android:name=".ShutdownTipActivity"
             android:label="@string/title_activity_shutdown_tip" >
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 

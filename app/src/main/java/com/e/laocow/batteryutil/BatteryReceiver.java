@@ -15,6 +15,10 @@ public class BatteryReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
+        if(!Settings.getRunFlag(context)){
+
+            return;
+        }
         KeyguardManager keyguardManager=(KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE);
         boolean isKeyguardFlag=keyguardManager.inKeyguardRestrictedInputMode();
 
@@ -25,7 +29,9 @@ public class BatteryReceiver extends BroadcastReceiver {
                 Log.d("batteryReceiver","在锁屏状态下已经收到测试广播");
 
             }else {
-                startShutdownTip(context);
+                if(Settings.getAliveRunFlag(context)) {
+                    startShutdownTip(context);
+                }
             }
             return;
         }

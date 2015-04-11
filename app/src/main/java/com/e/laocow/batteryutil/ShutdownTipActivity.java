@@ -90,13 +90,13 @@ public class ShutdownTipActivity extends ActionBarActivity {
             }else{
                 sendMessage(3);
                 try {
-                    Thread.sleep(4000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 sendMessage(5);
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(4000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -125,7 +125,7 @@ public class ShutdownTipActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_shutdown_tip, menu);
+       // getMenuInflater().inflate(R.menu.menu_shutdown_tip, menu);
         return true;
     }
 
